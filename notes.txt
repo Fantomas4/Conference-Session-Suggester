@@ -1,0 +1,7 @@
+swipl -g 'emacs.'
+
+; -> or operator
+nl -> print new line
+write('output text') -> print to user
+read(X) -> read next user input term and store it in X
+char_type(X,digit) -> built-in SWI Prolong function that checks whether X is a digit or not.
