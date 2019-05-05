@@ -5,3 +5,7 @@ nl -> print new line
 write('output text') -> print to user
 read(X) -> read next user input term and store it in X
 char_type(X,digit) -> built-in SWI Prolong function that checks whether X is a digit or not.
+tokenize_atom('input string',L1)  -> convert string to list of words
+sub_string(case_insensitive,String1,String2) -> Search if String1 exists in String2, with no discrimination between capital or non capital letters.
+atom_number("1", X) -> convert a word number (for example, 1) to a number and store it in X.
+abs(-1,X) -> Get the absolute value of a number (for example, -1) and store it in X.
