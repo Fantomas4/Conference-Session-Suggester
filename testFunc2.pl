@@ -15,6 +15,7 @@ combineWordsAndPoints([H|T],Points,ResultList) :-
 	string_concat(TempString,Points,WordWithPoints),
 	write(WordWithPoints),
 	%[WordWithPoints|RT] = ResultList,
+	%******************* WIP ************************
 	combineWordsAndPoints(T,Points,ResultList).
 	
 
