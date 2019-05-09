@@ -1,16 +1,24 @@
 %generateFinalKeywordList(InitialKeywordList,FinalKeywordList)
 % test input for this : generateFinalKeywordList(['hello there', 'nice', 'car', 'very big cat', 'm m m m m']).
 
-generateFinalKeywordList([]).
-generateFinalKeywordList([WH|T]) :-
-	tokenize_atom(WH,WordComponents),
-	length(WordComponents,Len),
+getLastElement([X],X).
+getLastElement([_|L],X) :- getLastElement(L,X).
+
+generateFinalKeywordList([],_).
+generateFinalKeywordList([KH|KT],FinalKeywordList) :-
+	tokenize_atom(KH,KeywordComponents),
+	length(KeywordComponents,Len),
 	write(Len),
 	nl,
-	( sub_string(case_insensitive,' ',WH)
-	-> write('Keyword is a phrase')
-	; write('Keyword is a single word')
+	( sub_string(case_insensitive,' ',KH)
+	-> write('Keyword is a phrase'),
+	append([KH],KeywordComponents,KeywordsToAppend),
+	append(KeywordsToAppend,FinalKeywordList,NewFinalKeywordList)
+	; write('Keyword is a single word'),
+	append(KeywordComponents,FinalKeywordList,NewFinalKeywordList)
 	),
 	nl,
+	write(NewFinalKeywordList),
 	nl,
-	generateFinalKeywordList(T).
+	nl,
+	generateFinalKeywordList(KT,NewFinalKeywordList).
