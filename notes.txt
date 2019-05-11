@@ -9,3 +9,4 @@ tokenize_atom('input string',L1)  -> convert string to list of words
 sub_string(case_insensitive,String1,String2) -> Search if String1 exists in String2, with no discrimination between capital or non capital letters.
 atom_number("1", X) -> convert a word number (for example, 1) to a number and store it in X.
 abs(-1,X) -> Get the absolute value of a number (for example, -1) and store it in X.
+trace. -> use to watch the execution of the program step-by-step. VERY useful for debugging purposes.
