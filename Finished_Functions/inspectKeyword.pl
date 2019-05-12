@@ -1,8 +1,6 @@
-
-%*****************WARNING********************
-%last() command which is built in SWI-Prolog can be used instead.
-getLastElement([X],X).
-getLastElement([_|L],X) :- getLastElement(L,X).
+ 
+% Import combineWordsAndPoints.pl file
+:- [combineWordsAndPoints].
 
 
 getWordsOfPhrase(Components,Result) :-
@@ -15,8 +13,8 @@ getWordsOfPhrase(Components,Result) :-
 	Result = PhraseWords.
 
 
-% inspectKeyword() gets a keywords and returns it after adding the proper points to it and 
-%any extra words, when the keyword is a phrase.
+% inspectKeyword() gets a keyword and returns it after adding the proper points to it if necessary and 
+% any extra words, when the keyword is a phrase. The result is returned as a list.
 inspectKeyword(Keyword,InspectionResult) :-
 	tokenize_atom(Keyword,KeywordComponents),
 	length(KeywordComponents,TestLen),
@@ -25,7 +23,7 @@ inspectKeyword(Keyword,InspectionResult) :-
 	( sub_string(case_insensitive,' ',Keyword)
 	%Keyword is a phrase
 	-> write('Keyword is a phrase'),
-	getLastElement(KeywordComponents,LastElement),
+	last(KeywordComponents,LastElement),
 	( number(LastElement)
 	%Last element is a number
 	-> write('Last element is a number'),
@@ -62,7 +60,8 @@ inspectKeyword(Keyword,InspectionResult) :-
 	
 	%Keyword is a single word
 	; write('Keyword is a single word'),
-	length(Keyword,TestLen),
+	tokenize_atom(Keyword,KeywordComponents),
+	length(KeywordComponents,TestLen),
 	( TestLen > 1
 	
 	% Single word already has points added at its end
@@ -72,8 +71,8 @@ inspectKeyword(Keyword,InspectionResult) :-
 	% Else single word has no points at its end, so we 
 	% add the default 1 point and return the word+point as a result
 	; string_concat(Keyword,'-1',KeywordWithPoints),
-	InspectionResult = KeywordWithPoints
+	InspectionResult = [KeywordWithPoints]
 	
-	).
+	)
 
 	).
