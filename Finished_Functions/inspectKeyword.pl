@@ -1,4 +1,3 @@
- 
 % Import combineWordsAndPoints.pl file
 :- [combineWordsAndPoints].
 
