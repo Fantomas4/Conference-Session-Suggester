@@ -5,6 +5,9 @@
 % Import generateFinalKeywordList.pl
 :- [generateFinalKeywordList].
 
+% Import facts about sessions, and respective topics from sessions.pl
+:- [sessions].
+
 % Input: A list
 % Output: The same list, with all its elements converted to atoms
 prepareKeywordList([],[]).
@@ -23,10 +26,10 @@ prepareKeywordList([H|T],FinalList) :-
 	
 	
 
-query(UserInput) :-
+query(ListOfKeywords) :-
 	% First, we convert all the compounds (for example, airplane-1 is recognised by prolog as a compound)
 	% from the user input to atoms, so that we can easily work with the list later. 
-	prepareKeywordList(UserInput,AtomList),
+	prepareKeywordList(ListOfKeywords,AtomList),
 	
 	% The prepared list that now contains only atom elements is passed
 	% to generateFinalKeywordList function.
