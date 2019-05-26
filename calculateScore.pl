@@ -9,7 +9,7 @@ calculateScore([H2|T2],[H3|T3],ListWithResults):-
 	calculateScore(T2,T3,ResultsOfRest),
 	
 	% get from every session the title X and the list with topics 
-	session(X,[H1|T1]),
+	session(X,[H1|_]),
 	% check if the H2 (the user's input) exists in X (the title)
 	( sub_string(case_insensitive,H2,X)
 	->write('Keyword is in the title of session'),
@@ -37,7 +37,7 @@ calculateScore([H2|T2],[H3|T3],ListWithResults):-
 	% combine the title of session with the FinalScore
 	string_concat(X,'-',Temp),
 	string_concat(Temp,FinalScore,Result),
-	append(Result,ResultsOfRest,ListWithResults)),
-	session(X,T1).
+	append(Result,ResultsOfRest,ListWithResults)).
+	% session(X,T1).
 	% add this 'Titleofsession-FinalScore' in a new list which is named 'ListWithResults'
 	%append([],Result,ListWithResults),
