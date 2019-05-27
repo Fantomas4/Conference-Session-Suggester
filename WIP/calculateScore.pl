@@ -14,15 +14,13 @@ calculateSingleKeywordSubjectScore(Keyword,Points,Subject,Score) :-
 	).
 
 
-% test with: calculateTotalKeywordsSubjectScore(['rule exception',rule,exception],[1,0.5,0.5],"Defeasibility and norms - modeling rule exceptions and priority relations among rules",Result).
+% test with: calculateSingleSubjectScore(['rule exception',rule,exception],[1,0.5,0.5],"Defeasibility and norms - modeling rule exceptions and priority relations among rules",Result).
 
-calculateTotalKeywordsSubjectScore([],[],_,0).
-calculateTotalKeywordsSubjectScore([WH|WT],[SH|ST],Subject,Result) :-
-	calculateTotalKeywordsSubjectScore(WT,ST,Subject,ResultOfRest),
+calculateSingleSubjectScore([],[],_,0).
+calculateSingleSubjectScore([WH|WT],[SH|ST],Subject,Result) :-
+	calculateSingleSubjectScore(WT,ST,Subject,ResultOfRest),
 	calculateSingleKeywordSubjectScore(WH,SH,Subject,SingleKeywordScore),
 	Result is SingleKeywordScore + ResultOfRest.
-
-calculateSingleSubjectScore
 
 calculateTotalSubjectsScore
 
