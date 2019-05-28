@@ -18,6 +18,11 @@ query(InitialListOfKeywords) :-
 	nl,
 	write(FinalKeywordsPoints),
 	nl,
-	calculateScore(FinalKeywords,FinalKeywordsPoints,ListWithResults),
-	write(ListWithResults),
+	findall(X,session(X,_),Titles),
+	findall(Y,session(_,Y),Subjects),
+	calculateScore(Titles,Subjects,FinalKeywords,FinalKeywordsPoints,TitlesResults,ScoreResult),
+	write(Subjects),
+	write(ScoreResult),
+	n1,
+	write(TitlesResults),
 	n1.
