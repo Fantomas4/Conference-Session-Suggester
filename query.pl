@@ -18,11 +18,16 @@ query(InitialListOfKeywords) :-
 	nl,
 	write(FinalKeywordsPoints),
 	nl,
-	findall(X,session(X,_),Titles),
-	findall(Y,session(_,Y),Subjects),
-	calculateScore(Titles,Subjects,FinalKeywords,FinalKeywordsPoints,TitlesResults,ScoreResult),
-	write(Subjects),
-	write(ScoreResult),
-	n1,
-	write(TitlesResults),
-	n1.
+	%findall(X,session(X,_),Titles),
+	%findall(Y,session(_,Y),Subjects),
+	calculateTotalKeywordsTitleScore(['Rules; Semantic Technology; and Cross-Industry Standards', 'Rule Transformation and Extraction', 
+	'Rules and Uncertainty', 'Rules and Norms', 'Rules and Inferencing', 'Rule-based Event Processing and Reaction Rules', 'Rule-Based 
+	Distributed/Multi-Agent Systems', 'General Introduction to Rules', 'RuleML-2010 Challenge'],FinalKeywords,FinalKeywordsPoints,Score),
+	nl,
+	write(Score).
+	%calculateScore(Titles,Subjects,FinalKeywords,FinalKeywordsPoints,TitlesResults,ScoreResult),
+	%write(Subjects),
+	%write(ScoreResult),
+	%n1,
+	%write(TitlesResults),
+	%n1.

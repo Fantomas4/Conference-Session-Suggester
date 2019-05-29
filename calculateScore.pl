@@ -1,12 +1,16 @@
 calculateSingleKeywordTitleScore(Title,Keyword,Points,Score):-
 	(sub_string(case_insensitive,Keyword,Title)
 	 ->write('Keyword is in the title'),
-	 Score=Points*2 ).
+	 nl,
+	 Score is Points*2
+	 ; write('Keyword is not in the title'),
+	 nl,
+	 Score is 0 ).
 	 
-calculateTotalKeywordsTitleScore(_,[],[],0).
-calculateTotalKeywordsTitleScore(Title,[H1|T1],[H2|T2],Score):-
-	calculateTotalKeywordsTitleScore(Title,T1,T2,ScoreOfRest),
-	calculateSingleKeywordTitleScore(Title,H1,H2,SingleKeywordScore),
+calculateTotalKeywordsTitleScore([],[],[],0).
+calculateTotalKeywordsTitleScore([H|T],[H1|T1],[H2|T2],Score):-
+	calculateTotalKeywordsTitleScore(T,T1,T2,ScoreOfRest),
+	calculateSingleKeywordTitleScore(H,H1,H2,SingleKeywordScore),
 	Score is SingleKeywordScore+ScoreOfRest.
 
 
