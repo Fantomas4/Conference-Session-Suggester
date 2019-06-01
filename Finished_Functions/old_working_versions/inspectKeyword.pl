@@ -1,77 +1,92 @@
-% Import combineWordsAndPoints.pl file
-:- [combineWordsAndPoints].
+% test with: inspectKeyword('hello there'-2,A,B).
 
 
-getWordsOfPhrase(Components,Result) :-
-	% Gets the last element of the Components list,
-	% which is always the points associated with the phrase.
-	last(Components,Points),
+
+
+% Import pairWordsWithPoints.pl file
+:- [pairWordsWithPoints].
+
+
+
+
+processPhrase(Phrase,PhrasePoints,KeywordsList,KeywordsPointsList) :-
+	write('Base is a phrase!'),
+	tokenize_atom(Phrase,PhraseComponents),
+	length(PhraseComponents,NumberOfWords),
+	WordPoints is PhrasePoints/NumberOfWords,
+	pairWordsWithPoints(PhraseComponents,WordPoints,GeneratedKeywords,GeneratedKeywordsPoints),
 	
-	% Deletes the Points element from the Components list
-	select(Points,Components,PhraseWords),
-	Result = PhraseWords.
+	% Both the initial Keyword phrase and the new Keyword words
+	% that were generated must now be added to the KeywordsList list.
+	append([Phrase],GeneratedKeywords,KeywordsList),
+	
+	% Both the initial Keyword phrase POINTS and the new generated words POINTS
+	% that were calculated must now be added to the KeywordsPointsList list.
+	append([PhrasePoints],GeneratedKeywordsPoints,KeywordsPointsList).
 
 
-% inspectKeyword() gets a keyword and returns it after adding the proper points to it if necessary and 
-% any extra words, when the keyword is a phrase. The result is returned as a list.
-inspectKeyword(Keyword,InspectionResult) :-
-	tokenize_atom(Keyword,KeywordComponents),
-	length(KeywordComponents,TestLen),
-	write(TestLen),
+
+
+% inspectKeyword() gets a keyword as input and returns 2 seperate Lists as a result.
+% The first list contains the keywords that were generated during the inspection (including
+% any extra words, if the keyword inspected was a phrase), while the second list contains the points 
+% associated with every word.
+
+inspectKeyword(Keyword,KeywordResult,PointsResult) :-
+	% Determine whether the keyword has points associated with it 
+	% (whether the keyword is a keyword-points pair)
+	( pairs_keys_values([Keyword],KeywordBaseList,PointsList)
+	
+	% If Keyword is found to be a keyword-points pair
+	-> write('Keyword is of keywords-points form!'),
+	[Base|_] = KeywordBaseList,
+	[Points|_] = PointsList,
 	nl,
-	( sub_string(case_insensitive,' ',Keyword)
-	%Keyword is a phrase
-	-> write('Keyword is a phrase'),
-	last(KeywordComponents,LastElement),
-	( number(LastElement)
-	%Last element is a number
-	-> write('Last element is a number'),
-	%PhrasePoints = W
-	abs(LastElement,PhrasePoints),
-	length(KeywordComponents,TempLen),
-	%NumberOfWords = N and is equal to the length of the KeywordComponents minus the points component
-	NumberOfWords is TempLen - 1,
-	WordPoints is PhrasePoints/NumberOfWords,
-	getWordsOfPhrase(KeywordComponents,WordsOfPhrase),
-	combineWordsAndPoints(WordsOfPhrase,WordPoints,WordsWithPoints),
+	write(Base),
+	nl,
+	% Check if Base is a word or a phrase
+	( sub_string(case_insensitive,' ',Base)
 	
-	% Both the initial Keyword phrase (in its original state, WITH the points)
-	% and the WordsWithPoints that were generated must be now added to the result list.
-	append([Keyword],WordsWithPoints,InspectionResult)
-
-
-	%Last element is NOT a number
-	; write('Last element is NOT a number'),
-	%No points are provided, so we take the default points assigned to a phrase, which is 1
-	PhrasePoints is 1,
-	%NumberOfWords = N and is equal to the length of the KeywordComponents
-	length(KeywordComponents,NumberOfWords),
-	WordPoints is PhrasePoints/NumberOfWords,
-	WordsOfPhrase = KeywordComponents,
-	combineWordsAndPoints(WordsOfPhrase,WordPoints,WordsWithPoints),
+	% If Base is found to be a phrase
+	-> processPhrase(Base,Points,KeywordsList,KeywordsPointsList),
+	KeywordResult = KeywordsList,
+	PointsResult = KeywordsPointsList
 	
-	% Both the initial Keyword phrase (in its NEW form, AFTER adding the points at its end)
-	% and the WordsWithPoints that were generated must be now added to the result list.
-	string_concat(Keyword,'-1',KeywordWithPoints),
-	append([KeywordWithPoints],WordsWithPoints,InspectionResult)
+	
+	% Else, if Base is found to be a word
+	; write('Base is a word!'),
+	nl,
+	% The initial word is added to the KeywordResult List.
+	KeywordResult = [Base],
+	
+	% The initial word points are added to the PointsResult list.
+	PointsResult = [Points]
 	)
 	
 	
-	%Keyword is a single word
-	; write('Keyword is a single word'),
-	tokenize_atom(Keyword,KeywordComponents),
-	length(KeywordComponents,TestLen),
-	( TestLen > 1
+	% Else, if keyword is found to not contain any points 
+	% associated with it
+	; write('Keyword has no points associated with it'),
 	
-	% Single word already has points added at its end
-	% so it is the result.
-	-> InspectionResult = [Keyword]
+	Base = Keyword,
+	Points = 1,
 	
-	% Else single word has no points at its end, so we 
-	% add the default 1 point and return the word+point as a result
-	; string_concat(Keyword,'-1',KeywordWithPoints),
-	InspectionResult = [KeywordWithPoints]
+	% Check if Base is a word or a phrase
+	( sub_string(case_insensitive,' ',Base)
+	% If Base is found to be a phrase
+	-> processPhrase(Base,Points,KeywordsList,KeywordsPointsList),
+	KeywordResult = KeywordsList,
+	PointsResult = KeywordsPointsList
 	
-	)
-
+	
+	% Else, if Base is found to be a word
+	; write('Base is a word!'),
+	nl,
+	% The initial word is added to the KeywordResult List.
+	KeywordResult = [Base],
+	
+	% The initial word points are added to the PointsResult list.
+	PointsResult = [Points]
+	)	
+	
 	).

@@ -32,61 +32,107 @@ processPhrase(Phrase,PhrasePoints,KeywordsList,KeywordsPointsList) :-
 % any extra words, if the keyword inspected was a phrase), while the second list contains the points 
 % associated with every word.
 
+% CASE 1:
+% Keyword is a keyword-points pair 
+% and
+% keyword is a word
+
 inspectKeyword(Keyword,KeywordResult,PointsResult) :-
-	% Determine whether the keyword has points associated with it 
-	% (whether the keyword is a keyword-points pair)
-	( pairs_keys_values([Keyword],KeywordBaseList,PointsList)
+	pairs_keys_values([Keyword],KeywordBaseList,PointsList),
+	% The keyword has points associated with it
 	
-	% If Keyword is found to be a keyword-points pair
-	-> write('Keyword is of keywords-points form!'),
+	write('Keyword is of keywords-points form!'),
 	[Base|_] = KeywordBaseList,
 	[Points|_] = PointsList,
 	nl,
 	write(Base),
 	nl,
-	% Check if Base is a word or a phrase
-	( sub_string(case_insensitive,' ',Base)
 	
-	% If Base is found to be a phrase
-	-> processPhrase(Base,Points,KeywordsList,KeywordsPointsList),
-	KeywordResult = KeywordsList,
-	PointsResult = KeywordsPointsList
-	
-	
-	% Else, if Base is found to be a word
-	; write('Base is a word!'),
+
+	not(sub_string(case_insensitive,' ',Base)),
+	% Base is found to be a word
+	write('Base is a word!'),
 	nl,
 	% The initial word is added to the KeywordResult List.
 	KeywordResult = [Base],
 	
 	% The initial word points are added to the PointsResult list.
-	PointsResult = [Points]
-	)
+	PointsResult = [Points],
+	!.
 	
 	
-	% Else, if keyword is found to not contain any points 
-	% associated with it
-	; write('Keyword has no points associated with it'),
+
+% CASE 2:
+% Keyword is a keyword-points pair 
+% and
+% keyword is a phrase
+
+inspectKeyword(Keyword,KeywordResult,PointsResult) :-
+	pairs_keys_values([Keyword],KeywordBaseList,PointsList),
+	% The keyword has points associated with it
 	
+	write('Keyword is of keywords-points form!'),
+	[Base|_] = KeywordBaseList,
+	[Points|_] = PointsList,
+	nl,
+	write(Base),
+	nl,
+	
+
+	sub_string(case_insensitive,' ',Base),
+	% Base is found to be a phrase
+	processPhrase(Base,Points,KeywordsList,KeywordsPointsList),
+	KeywordResult = KeywordsList,
+	PointsResult = KeywordsPointsList,
+	!.
+	
+	
+
+
+
+% CASE 3:
+% Keyword is NOT a keyword-points pair 
+% and
+% keyword is a word
+
+inspectKeyword(Keyword,KeywordResult,PointsResult) :-
+	not(pairs_keys_values([Keyword],_KeywordBaseList,_PointsList)),
+	% The keyword DOES NOT have points associated with it
+	write('Keyword has no points associated with it'),
+	nl,
+	Base = Keyword,
+	Points = 1,
+
+	not(sub_string(case_insensitive,' ',Base)),
+	% Base is found to be a word
+	write('Base is a word!'),
+	nl,
+	% The initial word is added to the KeywordResult List.
+	KeywordResult = [Base],
+	
+	% The initial word points are added to the PointsResult list.
+	PointsResult = [Points],
+	!.
+	
+	
+
+
+% CASE 4:
+% Keyword is NOT a keyword-points pair 
+% and
+% keyword is a phrase
+
+inspectKeyword(Keyword,KeywordResult,PointsResult) :-
+	not(pairs_keys_values([Keyword],_KeywordBaseList,_PointsList)),
+	% The keyword DOES NOT have points associated with it
+	write('Keyword has no points associated with it'),
+	nl,
 	Base = Keyword,
 	Points = 1,
 	
-	% Check if Base is a word or a phrase
-	( sub_string(case_insensitive,' ',Base)
-	% If Base is found to be a phrase
-	-> processPhrase(Base,Points,KeywordsList,KeywordsPointsList),
+	sub_string(case_insensitive,' ',Base),
+	% Base is found to be a phrase
+	processPhrase(Base,Points,KeywordsList,KeywordsPointsList),
 	KeywordResult = KeywordsList,
-	PointsResult = KeywordsPointsList
-	
-	
-	% Else, if Base is found to be a word
-	; write('Base is a word!'),
-	nl,
-	% The initial word is added to the KeywordResult List.
-	KeywordResult = [Base],
-	
-	% The initial word points are added to the PointsResult list.
-	PointsResult = [Points]
-	)	
-	
-	).
+	PointsResult = KeywordsPointsList,
+	!.
