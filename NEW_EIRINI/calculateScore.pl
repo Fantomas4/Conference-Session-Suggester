@@ -1,8 +1,8 @@
-%calculateSingleKeywordScore() gets a single title or a single subkect and a single keyword with its points 
+%calculateSingleKeywordScore() gets a single title or a single subject and a single keyword with its points 
 %and calculates the score of title or subject and returns this score. 
 
 %CASE 1:
-%Keyword is in the title or the subject of session and the score is Points*2.
+%Keyword is in the title or the subject of the session and the score is Points*2.
 calculateSingleKeywordScore(Input,Keyword,Points,Score):-
 	sub_string(case_insensitive,Keyword,Input),
 	Score is Points,
