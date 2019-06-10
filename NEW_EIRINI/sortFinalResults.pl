@@ -1,13 +1,14 @@
 %sortFinalResults([day-4,'general results'-1,exceptions-5,airplane-1,'general meeting'-2],SortedSessions,SortedScores).
 
-
-concatScoreWithTitles([],[],[]).
-concatScoreWithTitles([H1|T1],[H2|T2],Pairs):-
-	concatScoreWithTitles(T1,T2,PairsOfRest),
-	string_concat(H1,'-',Temp),
-	string_concat(Temp,H2,Pair),
-	NewResult=[Pair],
-	append(NewResult,PairsOfRest,Pairs).
+%%%   TEMP - DELETE? START %%%
+%concatScoreWithTitles([],[],[]).
+%concatScoreWithTitles([H1|T1],[H2|T2],Pairs):-
+%	concatScoreWithTitles(T1,T2,PairsOfRest),
+%	string_concat(H1,'-',Temp),
+%	string_concat(Temp,H2,Pair),
+%	NewResult=[Pair],
+%	append(NewResult,PairsOfRest,Pairs).
+%%%   TEMP - DELETE? END %%%
 
 sortFinalResults(Pairs,SortedSessions,SortedScores) :-
 	% Pairs is a key-value list

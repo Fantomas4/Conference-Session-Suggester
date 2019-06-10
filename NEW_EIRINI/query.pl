@@ -43,11 +43,11 @@ query(InitialListOfKeywords) :-
 	nl,
 	write(Score),
 	nl,
-	concatScoreWithTitles(Titles,Score,Pairs),
+	%concatScoreWithTitles(Titles,Score,Pairs),
+	pairs_keys_values(Pairs,Titles,Score),
 	write(Pairs),
 	sortFinalResults(Pairs,SortedTitles,SortedScore),
 	write(SortedTitles),
 	nl,
 	write(SortedScore).
-	%nl,
-	%printResults(Titles,SortedScore).
+
