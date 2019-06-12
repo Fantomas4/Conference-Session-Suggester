@@ -3,7 +3,6 @@
 :- [pairWordsWithPoints].
 
 processPhrase(Phrase,PhrasePoints,KeywordsList,KeywordsPointsList) :-
-	write('Base is a phrase!'),
 	tokenize_atom(Phrase,PhraseComponents),
 	length(PhraseComponents,NumberOfWords),
 	WordPoints is PhrasePoints/NumberOfWords,
@@ -31,20 +30,14 @@ processPhrase(Phrase,PhrasePoints,KeywordsList,KeywordsPointsList) :-
 
 inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 	pairs_keys_values([Keyword],KeywordBaseList,PointsList),
-	% The keyword has points associated with it
 	
-	write('Keyword is of keywords-points form!'),
+	% The keyword has points associated with it
 	[Base|_] = KeywordBaseList,
 	[Points|_] = PointsList,
-	nl,
-	write(Base),
-	nl,
-	
 
 	not(sub_string(case_insensitive,' ',Base)),
 	% Base is found to be a word
-	write('Base is a word!'),
-	nl,
+
 	% The initial word is added to the KeywordResult List.
 	KeywordResult = [Base],
 	
@@ -61,15 +54,10 @@ inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 
 inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 	pairs_keys_values([Keyword],KeywordBaseList,PointsList),
-	% The keyword has points associated with it
 	
-	write('Keyword is of keywords-points form!'),
+	% The keyword has points associated with it
 	[Base|_] = KeywordBaseList,
 	[Points|_] = PointsList,
-	nl,
-	write(Base),
-	nl,
-	
 
 	sub_string(case_insensitive,' ',Base),
 	% Base is found to be a phrase
@@ -88,16 +76,14 @@ inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 
 inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 	not(pairs_keys_values([Keyword],_KeywordBaseList,_PointsList)),
+	
 	% The keyword DOES NOT have points associated with it
-	write('Keyword has no points associated with it'),
-	nl,
 	Base = Keyword,
 	Points = 1,
 
 	not(sub_string(case_insensitive,' ',Base)),
 	% Base is found to be a word
-	write('Base is a word!'),
-	nl,
+	
 	% The initial word is added to the KeywordResult List.
 	KeywordResult = [Base],
 	
@@ -114,9 +100,8 @@ inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 
 inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 	not(pairs_keys_values([Keyword],_KeywordBaseList,_PointsList)),
+	
 	% The keyword DOES NOT have points associated with it
-	write('Keyword has no points associated with it'),
-	nl,
 	Base = Keyword,
 	Points = 1,
 	
