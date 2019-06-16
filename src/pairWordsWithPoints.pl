@@ -1,5 +1,3 @@
-% test with: pairWordsWithPoints([car,key,item],2,WR,PR).
-
 
 % Gets a list of words and an amount of points
 % and returns 2 lists, one containing the words 

@@ -1,3 +1,4 @@
+
 % Import calculateScore.pl
 :- [calculateScore].
 
@@ -18,12 +19,15 @@ printResults([H1|T1],[H2|T2]):-
 	write(H2),nl,
 	printResults(T1,T2).
 
+
+
 query(ListOfKeywords) :-
 	generateFinalKeywordList(ListOfKeywords,FinalKeywords,FinalKeywordsPoints),
 	findall(X,session(X,_),Titles),
 	findall(Y,session(_,Y),Subjects),
 	calculateScore(Titles,Subjects,FinalKeywords,FinalKeywordsPoints,Score),
-	%creates pairs title-score
+	
+	% Creates pairs title-score
 	pairs_keys_values(Pairs,Titles,Score),
 	sortFinalResults(Pairs,SortedTitles,SortedScore),
 	printResults(SortedTitles,SortedScore).
