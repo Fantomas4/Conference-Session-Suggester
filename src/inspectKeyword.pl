@@ -68,7 +68,6 @@ inspectKeyword(Keyword,KeywordResult,PointsResult) :-
 	
 
 
-
 % CASE 3:
 % Keyword is NOT a keyword-points pair 
 % and
